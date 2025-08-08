@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Graph View -->
+    <record id="sale_report_view_graph_dashboard" model="ir.ui.view">
+        <field name="name">sale.report.graph.sales.dashboard</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <graph string="Sales" type="bar" stacked="True">
+                <field name="date_order" interval="month" type="row"/>
+                <field name="price_total" type="measure"/>
+                <field name="product_uom_qty" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="sale_report_view_pivot_dashboard" model="ir.ui.view">
+        <field name="name">sale.report.pivot.sales.dashboard</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Sales Analysis" disable_linking="0">
+                <field name="date_order" interval="month" type="row"/>
+                <field name="team_id" type="col"/>
+                <field name="user_id" type="col"/>
+                <field name="price_total" type="measure"/>
+                <field name="product_uom_qty" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="sale_report_view_search_dashboard" model="ir.ui.view">
+        <field name="name">sale.report.search.sales.dashboard</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Sales">
+                <filter name="last_7days" string="Last 7 Days" domain="[('date_order','&gt;=', (context_today()-relativedelta(days=7)).strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                <filter name="last_30days" string="Last 30 Days" domain="[('date_order','&gt;=', (context_today()-relativedelta(days=30)).strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                <filter name="this_month" string="This Month" domain="[('date_order','&gt;=', context_today().replace(day=1).strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+
+                <separator/>
+                <filter string="Confirmed/Done" name="state_confirmed" domain="[('state','in',('sale','done'))]"/>
+                <filter string="Quotation" name="state_quotation" domain="[('state','in',('draft','sent'))]"/>
+                <filter string="Cancelled" name="state_cancel" domain="[('state','=','cancel')]"/>
+
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Order Date" name="grp_date" context="{'group_by':'date_order'}"/>
+                    <filter string="Month" name="grp_month" context="{'group_by':'date_order:month'}"/>
+                    <filter string="Salesperson" name="grp_user" context="{'group_by':'user_id'}"/>
+                    <filter string="Sales Team" name="grp_team" context="{'group_by':'team_id'}"/>
+                    <filter string="Customer" name="grp_partner" context="{'group_by':'commercial_partner_id'}"/>
+                    <filter string="Country" name="grp_country" context="{'group_by':'country_id'}"/>
+                    <filter string="Product" name="grp_product" context="{'group_by':'product_tmpl_id'}"/>
+                    <filter string="Category" name="grp_category" context="{'group_by':'categ_id'}"/>
+                </group>
+
+                <field name="company_id" filter_domain="[]"/>
+                <field name="user_id"/>
+                <field name="team_id"/>
+                <field name="commercial_partner_id"/>
+                <field name="country_id"/>
+                <field name="product_tmpl_id"/>
+                <field name="categ_id"/>
+            </search>
+        </field>
+    </record>
+</odoo>

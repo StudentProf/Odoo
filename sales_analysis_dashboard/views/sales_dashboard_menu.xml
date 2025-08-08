@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_sales_analysis_dashboard" model="ir.actions.act_window">
+        <field name="name">Sales Analysis Dashboard</field>
+        <field name="res_model">sale.report</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="target">current</field>
+        <field name="search_view_id" ref="sales_analysis_dashboard.sale_report_view_search_dashboard"/>
+        <field name="context">{
+            'search_default_last_30days': 1,
+            'graph_mode': 'bar',
+            'graph_measure': 'price_total',
+            'graph_groupby': 'date_order:month'
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Start exploring your sales performance</p>
+            <p>Use the filters to narrow down by period, salesperson, team, product, and more.</p>
+        </field>
+    </record>
+
+    <!-- Attach our custom views to the action -->
+    <record id="action_sales_analysis_dashboard_view_pivot" model="ir.actions.act_window.view">
+        <field name="sequence">1</field>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="sales_analysis_dashboard.sale_report_view_pivot_dashboard"/>
+        <field name="act_window_id" ref="sales_analysis_dashboard.action_sales_analysis_dashboard"/>
+    </record>
+    <record id="action_sales_analysis_dashboard_view_graph" model="ir.actions.act_window.view">
+        <field name="sequence">2</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="sales_analysis_dashboard.sale_report_view_graph_dashboard"/>
+        <field name="act_window_id" ref="sales_analysis_dashboard.action_sales_analysis_dashboard"/>
+    </record>
+
+    <menuitem id="menu_sales_analysis_root"
+              name="Sales Analysis"
+              action="action_sales_analysis_dashboard"
+              sequence="35"/>
+</odoo>
