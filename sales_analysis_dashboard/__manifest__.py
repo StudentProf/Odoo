@@ -8,8 +8,8 @@
     'website': 'https://example.com',
     'depends': ['sale_management', 'sale', 'web'],
     'data': [
-        'views/sales_dashboard_menu.xml',
         'views/sale_report_views.xml',
+        'views/sales_dashboard_menu.xml',
         'data/ir_filters.xml',
     ],
     'installable': True,
