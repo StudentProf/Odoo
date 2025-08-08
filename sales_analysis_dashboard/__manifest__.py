@@ -6,7 +6,7 @@
     'license': 'LGPL-3',
     'author': 'Your Company',
     'website': 'https://example.com',
-    'depends': ['sale', 'web'],
+    'depends': ['sale_management', 'sale', 'web'],
     'data': [
         'views/sales_dashboard_menu.xml',
         'views/sale_report_views.xml',
